@@ -38,12 +38,13 @@ function LoginPage(props) {
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
           let dataToSubmit = {
-            email: values.email,
-            password: values.password
+            user_id: values.email,
+            user_pwd: values.password
           };
-
+          console.log("dataToSubmit ",dataToSubmit)
           dispatch(loginUser(dataToSubmit))
             .then(response => {
+              console.log("response??",response)
               if (response.payload.loginSuccess) {
                 window.localStorage.setItem('userId', response.payload.userId);
                 if (rememberMe === true) {
@@ -51,7 +52,7 @@ function LoginPage(props) {
                 } else {
                   localStorage.removeItem('rememberMe');
                 }
-                props.history.push("/");
+                props.history.push("/");  // history : react-router-dom 이 있어야 사용가능
               } else {
                 setFormErrorMessage('Check out your Account or Password again')
               }
@@ -81,7 +82,7 @@ function LoginPage(props) {
         return (
           <div className="app">
 
-            <Title level={2}>Log In</Title>
+            <Title level={2}>로그인</Title>
             <form onSubmit={handleSubmit} style={{ width: '350px' }}>
 
               <Form.Item required>
@@ -131,7 +132,7 @@ function LoginPage(props) {
                   </a>
                 <div>
                   <Button type="primary" htmlType="submit" className="login-form-button" style={{ minWidth: '100%' }} disabled={isSubmitting} onSubmit={handleSubmit}>
-                    Log in
+                    로그인
                 </Button>
                 </div>
                 Or <a href="/register">register now!</a>

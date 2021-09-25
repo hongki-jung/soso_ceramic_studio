@@ -22,11 +22,16 @@ function App() {
       <NavBar />
       <div style={{ paddingTop: '69px', minHeight: 'calc(100vh - 80px)' }}>
         <Switch>
+          {/** option의 종류 : null, true, false
+           *  null: 아무나 출입 가능한 페이지
+           *  true: 로그인한 유저만 출입 가능 페이지
+           *  false: 로그인한 유저는 출입 불가능한 페이지
+           */}
           <Route exact path="/" component={Auth(LandingPage, null)} />
           <Route exact path="/login" component={Auth(LoginPage, false)} />
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
           <Route exact path="/product/upload" component={Auth(UploadProductPage, true)} />
-          <Route exact path="/product/:productId" component={Auth(DetailProductPage, null)} />
+          <Route exact path="/product/:productIdx" component={Auth(DetailProductPage, null)} />
           <Route exact path="/user/cart" component={Auth(CartPage, true)} />
           <Route exact path="/history" component={Auth(HistoryPage, true)} />
 

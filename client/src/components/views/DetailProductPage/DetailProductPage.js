@@ -3,17 +3,20 @@ import axios from 'axios';
 import ProductImage from './Sections/ProductImage';
 import ProductInfo from './Sections/ProductInfo';
 import { Row, Col } from 'antd';
+import { USER_SERVER } from '../../Config';
 
 function DetailProductPage(props) {
-
-    const productId = props.match.params.productId
+    console.log("DetailProductPage props",props)
+    const productIdx = props.match.params.productIdx
 
     const [Product, setProduct] = useState({})
 
     useEffect(() => {
-        axios.get(`/api/product/products_by_id?id=${productId}&type=single`)
+
+        axios.get(`${USER_SERVER}/api/product/product-detail/${productIdx}`)
             .then(response => {
-                setProduct(response.data[0])
+                console.log("response.data[0] ",response.data)
+                setProduct(response.data)
             })
             .catch(err => alert(err))
     }, [])
@@ -24,7 +27,7 @@ function DetailProductPage(props) {
         <div style={{ width: '100%', padding: '3rem 4rem' }}>
 
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <h1>{Product.title}</h1>
+                <h1>{Product.product_name}</h1>
             </div>
 
             <br />

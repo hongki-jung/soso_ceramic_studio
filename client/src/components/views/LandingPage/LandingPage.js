@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { FaCode } from "react-icons/fa";
 import axios from "axios";
-import { Icon, Col, Card, Row, Carousel, images } from 'antd';
+import { Icon, Col, Card, Row, Carousel, Image } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import ImageSlider from '../../utils/ImageSlider';
 import Checkbox from './Sections/CheckBox';
 import Radiobox from './Sections/RadioBox';
 import SearchFeature from './Sections/SearchFeature';
 import { continents, price } from './Sections/Datas';
-import d from './soso2.jpg'
+import d from './soso7.png'
+import { USER_SERVER } from '../../Config';
 function LandingPage() {
 
     const [Products, setProducts] = useState([])
@@ -33,15 +34,16 @@ function LandingPage() {
     }, [])
 
     const getProducts = (body) => {
-        axios.post('/api/product/products', body)
+        axios.get(`${USER_SERVER}/api/product`)
             .then(response => {
-                if (response.data.success) {
+              console.log("response.data ",response.data)
+                if (response.data) {
                     if (body.loadMore) {
-                        setProducts([...Products, ...response.data.productInfo])
+                        setProducts([...Products, ...response.data])
                     } else {
-                        setProducts(response.data.productInfo)
+                        setProducts(response.data)
                     }
-                    setPostSize(response.data.postSize)
+                    setPostSize(response.data.length)
                 } else {
                     alert(" 상품들을 가져오는데 실패 했습니다.")
                 }
@@ -67,15 +69,19 @@ function LandingPage() {
 
 
     const renderCards = Products.map((product, index) => {
-
-        return <Col lg={6} md={8} xs={24} key={index}>
+        console.log("product",product)
+        return <Col lg={8} md={12} xs={24} key={index}> 
             <Card
-                cover={<a href={`/product/${product._id}`} ><ImageSlider images={product.images} /></a>}
+                cover={<a href={`/product/${product.product_idx}`} ><img src={product.main_image_path} style={{width: '100%', maxHeight: '250px'}}/></a>}
             >
                 <Meta
-                    title={product.title}
-                    description={`$${product.price}`}
+                    title={product.product_name}
+                    description={`${product.product_description}`}
+             
                 />
+            <div className="additional">
+              <p className="price" style={{marginTop:'10px' ,fontSize:16, fontWeight:"bold"}}>{`${product.price}원`} </p>
+            </div>
             </Card>
         </Col>
     })
@@ -109,7 +115,7 @@ function LandingPage() {
     const handleFilters = (filters, category) => {
 
         const newFilters = { ...Filters }
-
+            
         newFilters[category] = filters
 
         console.log('filters', filters)
@@ -150,14 +156,14 @@ function LandingPage() {
             {/* Filter */}
 
             <Row gutter={[16, 16]}>
-                <Col lg={12} xs={24}>
+                {/* <Col lg={12} xs={24}> */}
                     {/* CheckBox */}
-                    <Checkbox list={continents} handleFilters={filters => handleFilters(filters, "continents")} />
-                </Col>
-                <Col lg={12} xs={24}>
+                    {/* <Checkbox list={continents} handleFilters={filters => handleFilters(filters, "continents")} /> */}
+                {/* </Col> */}
+                {/* <Col lg={12} xs={24}> */}
                     {/* RadioBox */}
-                    <Radiobox list={price} handleFilters={filters => handleFilters(filters, "price")} />
-                </Col>
+                    {/* <Radiobox list={price} handleFilters={filters => handleFilters(filters, "price")} /> */}
+                {/* </Col> */}
             </Row>
 
 

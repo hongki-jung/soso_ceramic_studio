@@ -5,21 +5,26 @@ function ProductImage(props) {
 
     const [Images, setImages] = useState([])
 
-    useEffect(() => {
+    useEffect(() =>{
+      setImages([props.main_image_path])
+    }, [props])
 
-        if (props.detail.images && props.detail.images.length > 0) {
-            let images = []
+    // useEffect(() => {
 
-            props.detail.images.map(item => {
-                images.push({
-                    original: `http://localhost:5000/${item}`,
-                    thumbnail: `http://localhost:5000/${item}`
-                })
-            })
-            setImages(images)
-        }
+    //     if (props.detail.images && props.detail.images.length > 0) {
+    //         let images = []
 
-    }, [props.detail])
+    //         props.detail.images.map(item => {
+    //             images.push({
+    //                 original: `http://localhost:5000/${item}`,
+    //                 thumbnail: `http://localhost:5000/${item}`
+    //             })
+    //         })
+    //         setImages(images)
+    //     }
+
+    // }, [props.detail])
+
 
     return (
         <div>

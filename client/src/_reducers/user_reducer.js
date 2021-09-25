@@ -12,6 +12,7 @@ import {
 
 export default function (state = {}, action) {
     switch (action.type) {
+
         case REGISTER_USER:
             return { ...state, register: action.payload }
         case LOGIN_USER:
@@ -20,6 +21,8 @@ export default function (state = {}, action) {
             return { ...state, userData: action.payload }
         case LOGOUT_USER:
             return { ...state }
+
+
         case ADD_TO_CART:
             return {
                 ...state,
@@ -30,6 +33,7 @@ export default function (state = {}, action) {
             }
         case GET_CART_ITEMS:
             return { ...state, cartDetail: action.payload }
+            
         case REMOVE_CART_ITEM:
             return {
                 ...state, cartDetail: action.payload.productInfo,
@@ -38,6 +42,8 @@ export default function (state = {}, action) {
                     cart: action.payload.cart
                 }
             }
+
+
         case ON_SUCCESS_BUY:
             return {
                 ...state, cartDetail: action.payload.cartDetail,
@@ -45,6 +51,7 @@ export default function (state = {}, action) {
                     ...state.userData, cart: action.payload.cart
                 }
             }
+
         default:
             return state;
     }

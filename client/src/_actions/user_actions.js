@@ -22,9 +22,9 @@ export function registerUser(dataToSubmit) {
 }
 
 export function loginUser(dataToSubmit) {
-    const request = axios.post(`${USER_SERVER}/login`, dataToSubmit)
+    const request = axios.post(`${USER_SERVER}/api/user/signin`, dataToSubmit)
         .then(response => response.data);
-
+    console.log("request",request)
     return {
         type: LOGIN_USER,
         payload: request
