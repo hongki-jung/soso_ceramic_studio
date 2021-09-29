@@ -5,7 +5,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { Form, Icon, Input, Button, Checkbox, Typography } from 'antd';
 import { useDispatch } from "react-redux";
-
+import { Link } from 'react-router-dom'
 const { Title } = Typography;
 
 function LoginPage(props) {
@@ -46,7 +46,7 @@ function LoginPage(props) {
             .then(response => {
               console.log("response??",response)
               if (response.payload.loginSuccess) {
-                window.localStorage.setItem('userId', response.payload.userId);
+                window.localStorage.setItem('userId', response.payload.user_id);
                 if (rememberMe === true) {
                   window.localStorage.setItem('rememberMe', values.id);
                 } else {
@@ -89,7 +89,7 @@ function LoginPage(props) {
                 <Input
                   id="email"
                   prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  placeholder="Enter your email"
+                  placeholder="아이디"
                   type="email"
                   value={values.email}
                   onChange={handleChange}
@@ -107,7 +107,7 @@ function LoginPage(props) {
                 <Input
                   id="password"
                   prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  placeholder="Enter your password"
+                  placeholder="비밀번호"
                   type="password"
                   value={values.password}
                   onChange={handleChange}
@@ -131,11 +131,12 @@ function LoginPage(props) {
                   forgot password
                   </a>
                 <div>
+
                   <Button type="primary" htmlType="submit" className="login-form-button" style={{ minWidth: '100%' }} disabled={isSubmitting} onSubmit={handleSubmit}>
                     로그인
-                </Button>
+                  </Button>
                 </div>
-                Or <a href="/register">register now!</a>
+                Or <Link to="/register">register now!</Link>
               </Form.Item>
             </form>
           </div>

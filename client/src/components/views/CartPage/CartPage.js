@@ -1,36 +1,47 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { getCartItems, removeCartItem, onSuccessBuy } from '../../../_actions/user_actions';
+import { getCartItems, onSuccessBuy } from '../../../_actions/user_actions';
+import {Link} from 'react-router-dom'
+import { removeCartItem, getCartList } from '../../../_actions/cart_actions';
 import UserCardBlock from './Sections/UserCardBlock';
-import { Empty, Result } from 'antd';
+import { Empty, Result, Icon, Button } from 'antd';
 import Paypal from '../../utils/Paypal';
-
+import { useSelector } from 'react-redux';
 function CartPage(props) {
     const dispatch = useDispatch();
 
     const [Total, setTotal] = useState(0)
     const [ShowTotal, setShowTotal] = useState(false)
     const [ShowSuccess, setShowSuccess] = useState(false)
+    const [cartData, setCartData] = useState([])
+    const userInfo = useSelector(state => state.user.userDetail)
+    const cartInfo = useSelector(state => state.cart.cartDetail)
+
+    console.log("cartInfo ",cartInfo)
 
     useEffect(() => {
-
-        let cartItems = []
-        //리덕스 User state안에 cart 안에 상품이 들어있는지 확인 
-        if (props.user.userData && props.user.userData.cart) {
-            if (props.user.userData.cart.length > 0) {
-                props.user.userData.cart.forEach(item => {
-                    cartItems.push(item.id)
-                })
-                dispatch(getCartItems(cartItems, props.user.userData.cart))
-                    .then(response => { calculateTotal(response.payload) })
-            }
+        if (props.user.userData){
+          dispatch(getCartList(props.user.userData))
+            .then((response)=> calculateTotal(response.payload))
         }
     }, [props.user.userData])
 
 
+    useEffect(()=>{
+      // if (props.user.userData){
+      //   dispatch(getCartList(props.user.userData))
+      //     .then((response)=> calculateTotal(response.payload))
+      // }
+      if (cartInfo && cartInfo.length > 0){
+        console.log("cartInfo??",cartInfo)
+        calculateTotal(cartInfo)
+      }
+
+    },[cartInfo])
+
     let calculateTotal = (cartDetail) => {
         let total = 0;
-
+        // console.log(" cartDetail ???",cartDetail)
         cartDetail.map(item => {
             total += parseInt(item.price, 10) * item.quantity
         })
@@ -41,12 +52,11 @@ function CartPage(props) {
     }
 
 
-    let removeFromCart = (productId) => {
-
-        dispatch(removeCartItem(productId))
+    let removeFromCart = (cartIdx) => {
+ 
+        dispatch(removeCartItem(cartIdx, cartInfo))
             .then(response => {
-
-                if (response.payload.productInfo.length <= 0) {
+                if (response.payload.length <= 0) {
                     setShowTotal(false)
                 }
 
@@ -71,15 +81,24 @@ function CartPage(props) {
 
     return (
         <div style={{ width: '85%', margin: '3rem auto' }}>
-            <h1>My Cart</h1>
+            
+            <h1>
+              <Icon type="shopping-cart" style={{ fontSize: 30, marginBottom: 3 , marginRight:5}}/>
+               장바구니
+            </h1>
 
             <div>
-                <UserCardBlock products={props.user.cartDetail} removeItem={removeFromCart} />
+                <UserCardBlock products={cartInfo ? cartInfo : null} removeItem={removeFromCart} />
             </div>
 
+
+            
             {ShowTotal ?
-                <div style={{ marginTop: '3rem' }}>
-                    <h2>Total Amount: ${Total}</h2>
+                <div style={{border: '8px solid rgba(0, 0, 0, 0.05)',marginTop:15,marginBottom:15 , paddingTop:20,paddingBottom:15,
+                    display:'flex',justifyContent:'center', alignItems:'center', flexDirection:'center'}}>
+                    <div>
+                      <h2 > 결제 예정 금액: {Total} 원</h2> 
+                    </div>
                 </div>
                 : ShowSuccess ?
                     <Result
@@ -91,15 +110,23 @@ function CartPage(props) {
                         <br />
                         <Empty description={false} />
                     </>
-            }
+            } 
+                <div style={{display:'flex',justifyContent:'center', alignItems:'center'}}>
+                  <Button style={{ width: '35%', height:'45px', alignItems:'center', marginRight:'5px' }} >
+                    <Link to="/"> 쇼핑 계속하기 </Link>
+                  </Button>
+                  <Button type="danger" style={{ width: '35%', height:'45px', alignItems:'center' }} >
+                    <Link to="/order">주문하기</Link>
+                  </Button>
+                </div>
 
-
-            {ShowTotal &&
+            
+            {/* {ShowTotal &&
                 <Paypal
                     total={Total}
                     onSuccess={transactionSuccess}
                 />
-            }
+            } */}
 
         </div>
     )

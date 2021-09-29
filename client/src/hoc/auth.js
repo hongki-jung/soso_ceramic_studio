@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 
 export default function (SpecificComponent, option, adminRoute = null) {
     function AuthenticationCheck(props) {
-
+      
         let user = useSelector(state => state.user);
         const dispatch = useDispatch();
 
@@ -13,7 +13,7 @@ export default function (SpecificComponent, option, adminRoute = null) {
             //To know my current status, send Auth request 
             dispatch(auth()).then(response => {
                 //Not Loggined in Status 
-                if (!response.payload.isAuth) {
+                if (!response.payload.userIdx) {
                     if (option) {
                         props.history.push('/login')
                     }

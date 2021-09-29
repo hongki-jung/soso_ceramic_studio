@@ -4,6 +4,8 @@ import RightMenu from './Sections/RightMenu';
 import { Drawer, Button, Icon } from 'antd';
 import './Sections/Navbar.css';
 import logo from './logo.png'
+import { Link } from 'react-router-dom'
+
 function NavBar() {
   const [visible, setVisible] = useState(false)
 
@@ -19,7 +21,7 @@ function NavBar() {
     <nav className="menu" style={{ position: 'fixed', zIndex: 5, width: '100%' }}>
       <div className="menu__logo">
 
-        <a href="/"><img src={logo} style={{flex: 'center', width:'100%'}}></img></a>
+        <Link to="/"><img src={logo} style={{flex: 'center', width:'100%'}}></img></Link>
         
       </div>
       <div className="menu__container">
@@ -37,7 +39,7 @@ function NavBar() {
           <Icon type="align-right" />
         </Button>
         <Drawer
-          title="Basic Drawer"
+          // title="Basic Drawer"
           placement="right"
           className="menu_drawer"
           closable={false}

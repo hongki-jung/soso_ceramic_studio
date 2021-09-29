@@ -1,7 +1,7 @@
-import { Button } from 'antd'
 import React from 'react'
-import "./UserCardBlock.css"
-function UserCardBlock(props) {
+import {Button} from 'antd'
+
+function OrderProductInfo(props) {
 
     // const renderCartImage = (images) => {
     //     if (images) {
@@ -10,7 +10,7 @@ function UserCardBlock(props) {
     //     }
     // }
 
-    console.log("props ? inUserCardBlock ",props.products)
+
 
 
     const renderItems = () => (
@@ -32,9 +32,10 @@ function UserCardBlock(props) {
                    {product.price} 원 
                 </td>
                 <td >
-                    <Button onClick={() => props.removeItem(product.cart_idx)}>
+                    <Button size="large"  type="primary"  onClick={() => props.removeItem(product._id)}>
                         삭제 
                     </Button>
+                    
                 </td>
             </tr>
         ))
@@ -49,12 +50,11 @@ function UserCardBlock(props) {
                         <th>상품정보</th>
                         <th>수량</th>
                         <th>상품가격</th>
-                        <th>삭제</th>
                     </tr>
                 </thead>
 
                 <tbody style={{backgroundColor:'white'}}>
-                    {renderItems()}
+                    {/* {renderItems()} */}
                 
                 </tbody>
             </table>
@@ -62,4 +62,4 @@ function UserCardBlock(props) {
     )
 }
 
-export default UserCardBlock
+export default OrderProductInfo

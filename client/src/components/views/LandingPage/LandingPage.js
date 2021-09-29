@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { FaCode } from "react-icons/fa";
 import axios from "axios";
+import {Route, Link} from 'react-router-dom'
 import { Icon, Col, Card, Row, Carousel, Image } from 'antd';
 import Meta from 'antd/lib/card/Meta';
 import ImageSlider from '../../utils/ImageSlider';
@@ -30,13 +31,17 @@ function LandingPage() {
         }
 
         getProducts(body)
-
+        
+        axios.get(`${USER_SERVER}/api/user/auth`,{withCredentials: true})
+        .then(response => {
+          console.log("response in  /api/user/auth",response.data)
+        })
     }, [])
 
     const getProducts = (body) => {
         axios.get(`${USER_SERVER}/api/product`)
             .then(response => {
-              console.log("response.data ",response.data)
+
                 if (response.data) {
                     if (body.loadMore) {
                         setProducts([...Products, ...response.data])
@@ -69,15 +74,15 @@ function LandingPage() {
 
 
     const renderCards = Products.map((product, index) => {
-        console.log("product",product)
+        // console.log("product",product)
         return <Col lg={8} md={12} xs={24} key={index}> 
             <Card
-                cover={<a href={`/product/${product.product_idx}`} ><img src={product.main_image_path} style={{width: '100%', maxHeight: '250px'}}/></a>}
+                cover={<Link to={`/product/${product.product_idx}`} ><img src={product.main_image_path} style={{width: '100%', height: '250px'}}/></Link>}
             >
                 <Meta
                     title={product.product_name}
                     description={`${product.product_description}`}
-             
+                    style={{textOverflow:"ellipsis", whiteSpace:'nowrap'}}
                 />
             <div className="additional">
               <p className="price" style={{marginTop:'10px' ,fontSize:16, fontWeight:"bold"}}>{`${product.price}원`} </p>
@@ -146,10 +151,12 @@ function LandingPage() {
 
 
     return (
+      <>
+        <img src={d} style={{flex: 'center', width:'100%' , height: 340}} />
         <div style={{ width: '75%', margin: '3rem auto' }}>
             <div style={{ textAlign: 'center' }}>
                 {/* <h1>소소 도자기  공방 <Icon type="rocket" /> </h1> */}
-                <img src={d} style={{flex: 'center', width:'100%' , height: 400}} />
+                
                 {/* <Card src="http://news.samsungdisplay.com/wp-content/uploads/2018/08/2.png" style={{width="100"}}> </Card> */}
             </div>
 
@@ -194,6 +201,7 @@ function LandingPage() {
             }
 
         </div>
+      </>
     )
 }
 

@@ -1,24 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import ImageGallery from 'react-image-gallery';
+// import ImageGallery from 'react-image-gallery';
 
-function ProductImage(props) {
+function ProductDetailImages(props) {
 
     const [Images, setImages] = useState([])
 
     useEffect(() =>{
-      if (props.detail.main_image_path){
-        let images = []
-      
-        images.push({
-          original: props.detail.main_image_path,
-          // thumbnail: props.detail.main_image_path
-        })
-        console.log("images",images)
-        setImages(images)
-        console.log("Images ???",Images)
-      }
+      let images = []
+      console.log("props.detail.productDetailImg")
+      setImages(props.detail.productDetailImg)
 
-    }, [props.detail])
+    }, [props])
 
     // useEffect(() => {
 
@@ -38,12 +30,15 @@ function ProductImage(props) {
 
 
     return (
-        <div>
-            {Images && Images.length > 0 ? <ImageGallery items={Images} /> : null}
-        </div>
-    )
+      <div>
+          {props.detail.productDetailImg.map((image, index) => (
+              <div key={index}>
+                  <img style={{ width: '100%', maxHeight: '600px' }}
+                      src={image.path} />
+              </div>
+          ))}
+      </div>
+  )
 }
 
-
-
-export default ProductImage
+export default ProductDetailImages

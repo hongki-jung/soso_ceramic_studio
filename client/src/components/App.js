@@ -11,6 +11,9 @@ import UploadProductPage from "./views/UploadProductPage/UploadProductPage.js";
 import DetailProductPage from "./views/DetailProductPage/DetailProductPage";
 import CartPage from './views/CartPage/CartPage';
 import HistoryPage from './views/HistoryPage/HistoryPage';
+import NoticePage from './views/Notice/NoticePage';
+import DetailNoticePage from './views/DetailNoticePage/DetailNoticePage';
+import OrderPage from './views/OrderPage/OrderPage';
 
 //null   Anyone Can go inside
 //true   only logged in user can go inside
@@ -32,9 +35,11 @@ function App() {
           <Route exact path="/register" component={Auth(RegisterPage, false)} />
           <Route exact path="/product/upload" component={Auth(UploadProductPage, true)} />
           <Route exact path="/product/:productIdx" component={Auth(DetailProductPage, null)} />
-          <Route exact path="/user/cart" component={Auth(CartPage, true)} />
+          <Route exact path="/cart" component={Auth(CartPage, true)} />
           <Route exact path="/history" component={Auth(HistoryPage, true)} />
-
+          <Route exact path="/notice" component={Auth(NoticePage, true)} />
+          <Route exact path="/notice/:noticeIdx" component={Auth(DetailNoticePage, true)} />
+          <Route exact path="/order" component={Auth(OrderPage, true)} />
         </Switch>
       </div>
       <Footer />
